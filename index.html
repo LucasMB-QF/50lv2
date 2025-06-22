@@ -406,7 +406,7 @@
             line-height: 1.6;
         }
         
-        /* PDF Viewer */
+        /* PDF Viewer - Modificado para ser más estrecho */
         .viewer-container {
             position: fixed;
             top: 0;
@@ -439,6 +439,10 @@
             font-size: 1.1rem;
             color: white;
             font-weight: 500;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .close-viewer {
@@ -454,6 +458,7 @@
             align-items: center;
             justify-content: center;
             transition: var(--transition);
+            flex-shrink: 0;
         }
         
         .close-viewer:hover {
@@ -470,12 +475,12 @@
         }
         
         .pdf-viewer {
-            width: 90%;
-            height: 90%;
+            width: 70%; /* Reducido de 90% a 70% */
+            height: 85%; /* Ajustado de 90% a 85% */
             border: none;
             border-radius: 10px;
             box-shadow: 0 0 30px rgba(0, 100, 255, 0.3);
-            zoom: 0.75;
+            zoom: 0.85; /* Aumentado de 0.75 a 0.85 */
         }
         
         /* Notification */
@@ -530,9 +535,21 @@
         }
         
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .pdf-viewer {
+                width: 80%;
+                height: 80%;
+            }
+        }
+        
         @media (max-width: 992px) {
             .documents-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .pdf-viewer {
+                width: 90%;
+                height: 75%;
             }
         }
         
@@ -565,6 +582,15 @@
             .footer-text {
                 text-align: center;
             }
+            
+            .pdf-viewer {
+                width: 95%;
+                height: 70%;
+            }
+            
+            .viewer-title {
+                max-width: 60%;
+            }
         }
         
         @media (max-width: 576px) {
@@ -578,6 +604,11 @@
             
             .document-actions {
                 flex-direction: column;
+            }
+            
+            .pdf-viewer {
+                width: 98%;
+                height: 65%;
             }
         }
     </style>
@@ -828,8 +859,8 @@
         // Visualizar documento
         function viewDocument(id, name, type, previewLink = null) {
             if (type === 'pdf') {
-                // URL de vista previa de Google Drive para PDFs con zoom al 75%
-                const url = `https://drive.google.com/file/d/${id}/preview#view=fitH&zoom=75`;
+                // URL de vista previa de Google Drive para PDFs con zoom al 85%
+                const url = `https://drive.google.com/file/d/${id}/preview#view=fitH&zoom=85`;
                 pdfViewer.src = url;
                 viewerTitle.textContent = name;
                 pdfViewerContainer.classList.add('active');
@@ -887,6 +918,10 @@
             // Activar el botón DQ por defecto
             document.querySelector('.category-card[data-category="dq"]').classList.add('active');
         };
+
+        // Hacer las funciones accesibles globalmente
+        window.viewDocument = viewDocument;
+        window.downloadDocument = downloadDocument;
     </script>
 </body>
 </html>
